@@ -1,0 +1,13 @@
+    "express": "^4.19.2",
+
+ in express version:  3rd Part (.2)-  version for minor fixes
+                      2nd Part(.19) - recommended bug/security fix
+                       1st part(4)-  Major/ Breaking Update 
+
+ ^ - means Install all recommended and minro fixes automatically
+
+ if      "express": "~4.19.2",
+
+ ~- means Install only minor fixes automatically
+
+
