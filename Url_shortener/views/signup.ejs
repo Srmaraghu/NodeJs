@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <title>Sign Up</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Url Shortener</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/home">Home</a>
+                </li>
+                <% if (locals.user) { %> <!-- Check if user is authenticated -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                <% } else { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/signup">Sign Up</a>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    <div class="container mt-5">
+        <h3 class="text-center mb-4" style="border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)">Sign Up</h3>
+        <form action="/user" method="post">
+            <div class="mb-3">
+                <input class="form-control mx-auto w-auto" type="text" placeholder="Full Name" name="name" autofocus required />
+            </div>
+            <div class="mb-3">
+                <input class="form-control mx-auto w-auto" type="text" placeholder="Email" name="email" autofocus required />
+            </div>
+            <div class="mb-3">
+                <input class="form-control mx-auto w-auto" type="password" placeholder="Password" name="password" autofocus required />
+            </div>
+            <div class="text-center" style="color: white;">
+                <button class="btn btn-info" type="submit">Sign Up</button>
+            </div>
+            <!-- Link to login page -->
+            <div class="text-center mt-3">
+                <p>Already have an account? <a href="/login">Log In</a></p>
+            </div>
+        </form>
+    </div>
+    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

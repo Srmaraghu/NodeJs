@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Url Shortener</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <% if (locals.user) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/signup">Sign Up</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <h1 class="mt-3 text-center ">Url Shortener</h1>
+    
+    <% if (locals.id) { %>
+        <p class="text-center"> Short Url Generated: http://localhost:8001/url/<%= id %> </p>
+    <% } %>
+
+    <form method="post" action="/url">
+        <div class="mb-4 text-center">
+            <label for="redirectUrl">Enter Your Original Url:</label>
+            <input type="text" autofocus name="url" placeholder="https://www.example.com" autocomplete="off">
+        </div>
+        <div class="mb-4 text-center">
+            <button type="submit" class=" btn btn-primary">Generate</button>
+        </div>
+    </form>
+
+    <% if (locals.allurls) { %>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <th>S.No</th>
+                    <th>ShortId</th>
+                    <th>Redirect</th>
+                    <th>Clicks</th>
+                </thead>
+                <tbody>
+                    <% allurls.forEach((url, index) => { %>
+                        <tr>
+                            <td><%= index + 1 %></td>
+                            <td><%= url.shortId %></td>
+                            <td><%= url.redirectUrl %></td>
+                            <td><%= url.visitHistory.length %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <% } %>
+
+    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
