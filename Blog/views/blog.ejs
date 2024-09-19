@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+
+    <title>Blog - <%= blog.title %></title>
+    <style>
+        .blog-container {
+            max-width: 900px;
+            margin: auto;
+            padding-right: 270px; /* Adjust the padding to make space for the sidebar */
+            position: relative; /* Ensure sidebar can be positioned relative to this container */
+        }
+
+        .blog-title {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .blog-cover-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .blog-body {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: #333;
+            white-space: pre-wrap;
+        }
+
+        .blog-body pre {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: #2c3e50;
+            overflow-x: auto;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-sticky {
+            position: absolute;
+            bottom: 0; /* Align to the bottom of the container */
+            right: -120px; /* Align to the right edge of the container */
+            width: 300px;
+            background-color: #f8f9fa;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* Ensure it appears above other content */
+            padding: 20px; /* Add some padding inside the sidebar */
+        }
+
+        .comment-section {
+            margin-top: 3rem;
+        }
+
+        .comment-section h3 {
+            margin-bottom: 1rem;
+        }
+
+        .comment-item {
+            margin-bottom: 1rem;
+        }
+
+        .comment-item img {
+            border-radius: 50%;
+        }
+
+        .comment-content {
+            margin-left: 60px;
+        }
+    </style>
+</head>
+<body>
+    <%- include('./partials/nav.ejs') %>
+
+    <div class="container mt-4">
+        <div class="blog-container">
+            <div class="sidebar-sticky">
+                <%- include('./partials/sidebar.ejs', { allBlogs: allBlogs }) %>
+            </div>
+            <h2 class="blog-title mb-4"><%= blog.title %></h2>
+
+            <img
+                src="/<%= blog.coverImageURL %>"
+                class="blog-cover-image"
+                alt="Cover Image"
+            />
+
+            <!-- This div will hold the processed HTML content -->
+            <div id="blog-content" class="blog-body mt-5"></div>
+
+            <div class="container mt-4">
+                <img
+                    src="<%= blog.author.profileImageURL %>"
+                    width="50px"
+                    alt="profileImage"
+                />
+                - <%= blog.author.fullName %>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="comment-section container mt-5">
+                <h3 class="text-secondary-emphasis">Comments (<%= comments.length %>)</h3>
+                <% if (locals.user) { %>
+                <form action="/blog/comment/<%= blog._id %>" method="post">
+                    <div class="mb-3">
+                        <input
+                            type="text"
+                            name="content"
+                            class="form-control"
+                            placeholder="Enter your comment"
+                            required
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-sm btn-primary" type="submit">Add</button>
+                    </div>
+                </form>
+                <% } %>
+                <% comments.forEach(comment => { %>
+                <div class="comment-item">
+                    <img
+                        src="<%= comment.author.profileImageURL %>"
+                        width="50px"
+                        alt="profileImage"
+                    />
+                    <span><%= comment.author.fullName %></span>
+                    <div class="comment-content">
+                        <pre><%= comment.content %></pre>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+
+    <%- include('./partials/script') %>
+    <%- include('./partials/footer') %>
+
+    <!-- Include Showdown.js -->
+    <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
+    <script>
+        // Your blog content in plain text from the server
+        const plainTextContent = `<%= blog.body %>`;
+
+        // Initialize Showdown converter
+        const converter = new showdown.Converter();
+
+        // Convert Markdown to HTML
+        const htmlContent = converter.makeHtml(plainTextContent);
+
+        // Insert the HTML content into the blog-content div
+        document.getElementById("blog-content").innerHTML = htmlContent;
+    </script>
+</body>
+</html>

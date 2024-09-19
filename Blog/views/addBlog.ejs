@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head') %>
+    <title>Home Page - Blog</title>
+  </head>
+  <body>
+    <%- include('./partials/nav.ejs') %>
+
+    <div class="container mt-3">
+      <form action="/blog" method="post" enctype="multipart/form-data"> 
+        <div class="mb-3">
+          <label for="coverImage" class="form-label">Cover Image</label>
+          <input
+            type="file"
+            class="form-control mx-auto"
+            autofocus
+            autocomplete="off"
+            id="coverImage"
+            name="coverImage"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input
+            type="text"
+            class="form-control mx-auto"
+            autofocus
+            autocomplete="off"
+            id="title"
+            name="title"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="body" class="form-label">Body</label>
+          <textarea
+            class="form-control"
+            id="body"
+            name="body"
+            autocomplete="off"
+            autofocus
+          ></textarea>
+        </div>
+        <div class="mb-3">
+          <button class="btn btn-primary" type="submit">Add Blog</button>
+        </div>
+      </form>
+    </div>
+    <%- include('./partials/footer') %>
+
+    <%- include('./partials/script') %>
+  </body>
+</html>
